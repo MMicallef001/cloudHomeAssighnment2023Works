@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Common.Models.Movie>
+
+@{
+    ViewData["Title"] = "List";
+}
+
+<h1>List</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <p>Thumbnail</p>
+            </th>
+            <th>
+                <p>File Name</p>
+            </th>
+            <th>
+                <p>Owner</p>
+            </th>
+            <th>
+                <p>Status</p>
+            </th>
+            <th>
+                <p>Uploaded Date </p>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="data:image/jpeg;base64,@item.TumbnailString" style="width: 100px; height: 100px;" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NameOfFile)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Owner)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td><span>@item.uploadDate.ToDateTime()</span></td>
+
+                <td>
+                    @if (item.Status)
+                    {
+                        @if (!item.SRTGenerated){
+                            @Html.ActionLink("Download Transcription As .txt", "DownloadTranscription", new { nameOfFile = item.NameOfFile })
+                        }else{
+                            @Html.ActionLink("Download SRT", "DownloadSRT", new { nameOfFile = item.NameOfFile })
+                        }
+                    }    
+                    else
+                    {
+                        @Html.ActionLink("Transcribe", "Transcribe", new { nameOfFile = item.NameOfFile })
+                    } 
+                </td>
+                <td>
+                    @Html.ActionLink("Download", "Download", new { nameOfFile = item.NameOfFile })
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a class="nav-link text-dark" href="/home/MembersHome">Back</a>
+</div>

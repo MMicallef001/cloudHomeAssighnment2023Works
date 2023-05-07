@@ -1,0 +1,82 @@
+﻿@model Common.Models.Movie
+
+@{
+    ViewData["Title"] = "Upload";
+}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<h1>Upload</h1>
+
+<h4>Movie</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form id="upload-form" asp-action="Upload" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label class="control-label">Upload file</label>
+                <input type="file" id="file" name="file" class="form-control" />
+            </div>
+
+           <div class="form-group">
+                <label class="control-label">Upload Thumbnail</label>
+                <input type="file" id="thumbnail" name="thumbnail" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="progress">
+    <div id="progress-bar" class="progress-bar" role="progressbar"></div>
+</div>
+
+<div id="message"></div>
+
+
+<script>
+    $(document).ready(function () {
+        var form = $('#upload-form');
+        var fileInput = $('input[type="file"]#file', form);
+        var thumbnailInput = $('input[type="file"]#thumbnail', form);
+
+        var xhr = new XMLHttpRequest();
+
+        xhr.upload.addEventListener('progress', function (event) {
+            var progressBar = document.getElementById('progress-bar');
+            progressBar.style.width = Math.round((event.loaded / event.total) * 100) + '%';
+        });
+
+
+        xhr.addEventListener('load', function(event) {
+            $('#message').text('Upload complete!');
+            });
+
+        form.on('submit', function (event) {
+            event.preventDefault();
+
+            var file = fileInput[0].files[0];
+            var thumbnail = thumbnailInput[0].files[0];
+
+
+            var formData = new FormData();
+            formData.append('file', file);
+            formData.append('thumbnail', thumbnail);
+
+            xhr.open('POST', form.attr('action'));
+            xhr.send(formData);
+        });
+    });
+</script>
+
+
+<div>
+    <a class="nav-link text-dark" href="/home/MembersHome">Back</a>
+</div>
+
+
+
