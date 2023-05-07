@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <FrameworkReference Remove="Microsoft.WindowsDesktop.App.WindowsForms" />
     <PackageReference Include="Google.Cloud.Firestore" Version="3.2.0" />
   </ItemGroup>
 
