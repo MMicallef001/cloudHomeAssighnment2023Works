@@ -1,0 +1,10 @@
+Link to Github that works https://github.com/MMicallef001/cloudHomeAssighnment2023Works
+
+Link to Hosted Web Page https://cloudapp-5376hthbma-uc.a.run.app/
+
+Service was unable to be published as a dependency mediatool uses WindowsForms and from research it is not able to be published.
+.net3.1 error NETSDK1073: The FrameworkReference 'Microsoft.WindowsDesktop.App.WindowsForms'
+
+
+Link to a github link where i broke some references and didnt waste time to fix just to check history 
+https://github.com/MMicallef001/cloudHomeAssighnment2023

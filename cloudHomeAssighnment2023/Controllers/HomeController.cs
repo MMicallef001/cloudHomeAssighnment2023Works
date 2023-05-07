@@ -27,6 +27,7 @@ namespace cloudHomeAssighnment2023.Controllers
             return View();
         }
 
+
         [Authorize]
         public IActionResult MembersHome()
         {

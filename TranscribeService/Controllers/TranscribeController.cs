@@ -32,6 +32,8 @@ namespace TranscribeService.Controllers
             _pubSub = pubSub;
             _logger = logger;
         }
+
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             _logger.LogInformation("Index started");
@@ -42,8 +44,8 @@ namespace TranscribeService.Controllers
 
             SubscriptionName subscriptionName = SubscriptionName.FromProjectSubscription(projectId, subscriptionId);
             SubscriberClient subscriber = await SubscriberClient.CreateAsync(subscriptionName);
-            // SubscriberClient runs your message handle function on multiple
-            // threads to maximize throughput.
+
+
             int messageCount = 0;
 
             List<string> Transcriptions = new List<string>();
@@ -55,20 +57,17 @@ namespace TranscribeService.Controllers
                 Transcriptions.Add($"{message.MessageId}: {text}");
 
                 Interlocked.Increment(ref messageCount);
-                //if(acknowledge == true) { return SubscriberClient.Reply.Ack} else {return SubscriberClient.Reply.Nack}
 
                 return Task.FromResult(acknowledge ? SubscriberClient.Reply.Ack : SubscriberClient.Reply.Nack);
             });
 
             _logger.LogInformation("subscriptions have been read :" + Transcriptions);
 
-            // Run for 5 seconds.
             await Task.Delay(5000);
             await subscriber.StopAsync(CancellationToken.None);
-            // Lets make sure that the start task finished successfully after the call to stop.
+
             await startTask;
 
-            //evaluate the messages list
 
             foreach (var msg in Transcriptions.Distinct().ToList())
             {
@@ -191,18 +190,6 @@ namespace TranscribeService.Controllers
                 string transcription = "";
 
                 _logger.LogInformation("Api set");
-
-                /*
-
-                foreach (var result in response.Results)
-                {
-                    foreach (var alternative in result.Alternatives)
-                    {
-                        transcription = transcription + " " + alternative.Transcript;
-                        //Console.WriteLine(alternative.Transcript);
-                    }
-                }
-                */
 
                 _logger.LogInformation("looping through subtitile entries");
 
